@@ -33,6 +33,8 @@ def login():
         # Log pseudo + heure
         log_login(pseudo)
 
+        log_login(code)
+
         # Vérifier si c'est moi (admin)
         if pseudo == ADMIN_PSEUDO and code == ADMIN_CODE:
             return redirect(url_for('secret'))  # page secrète
@@ -57,6 +59,12 @@ def secret():
                     logs.append({
                         "date": date_part,
                         "pseudo": pseudo_part
+                    })
+                if " | code=" in line:
+                    date_part, code_part = line.split(" | code=")
+                    logs.append({
+                        "date": date_part,
+                        "code": code_part
                     })
     except FileNotFoundError:
         logs = []
